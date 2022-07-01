@@ -1,5 +1,7 @@
-from time import sleep as sl
-print("Welcome To The Smart Statics And Probability Calculator !. Here You Can Solve Very Dificult And Lenghty Sum of The Static")
+from time import sleep
+
+print(
+    "Welcome To The Smart Statics And Probability Calculator !. Here You Can Solve Very Difficult And Lengthy Sum of The Static")
 
 # Taking Required Values
 # Taking Number of Input
@@ -9,7 +11,7 @@ try:
     numOfItems = int(numOfItems)
 except:
     try:
-        print("Plese Give a Integer (number) Parameter")
+        print("Please Give a Integer (number) Parameter")
         numOfItems = int(input("Number of Items you Have : "))
     except:
         print("The Para meter Given Was not Integer So Cannot Process it")
@@ -20,14 +22,14 @@ items = []
 print("Give the Value for Each Place")
 # Value for Eac Place
 for n in range(numOfItems):
-    whatToTake = input(f"\nValue at {n+1} : ")
+    whatToTake = input(f"\nValue at {n + 1} : ")
     # Error Handling of it 
     try:
         whatToTake = float(whatToTake)
     except:
         try:
-            print("Plese Give a Number Parameter")
-            whatToTake = float(input(f"Value at {n+1} : "))
+            print("Please Give a Number Parameter")
+            whatToTake = float(input(f"Value at {n + 1} : "))
         except:
             print("The Para meter Given Was not Integer So the Value is = 0")
             whatToTake = 0.0
@@ -35,55 +37,48 @@ for n in range(numOfItems):
     items.append(whatToTake)
 
 print("\n")
-ClassSize = input("Class Size : ") 
+ClassSize = input("Class Size : ")
 
 # Error Handling of it 
 try:
     ClassSize = float(ClassSize)
 except:
     try:
-        print("Plese Give a Number Parameter")
+        print("Please Give a Number Parameter")
         ClassSize = float(input("Class Size : "))
     except:
         print("The Para meter Given Was not Integer So Taking Class Size = 5")
 
-
-
 # Taking Highest Value
-high = input("What is the Highest Value  : ") 
+high = input("What is the Highest Value  : ")
 
 # Error Handling of it 
 try:
     high = float(high)
 except:
     try:
-        print("Plese Give a Number Parameter")
+        print("Please Give a Number Parameter")
         high = float(input("What is the Highest Value  : "))
     except:
         print("The Para meter Given Was not Integer So Taking Class Size = 5")
 
-
-
-
 # Taking Lowest Value
-low = input("What is the Lowest Value  : ") 
+low = input("What is the Lowest Value  : ")
 
 # Error Handling of it 
 try:
     low = float(low)
 except:
     try:
-        print("Plese Give a Number Parameter")
+        print("Please Give a Number Parameter")
         low = float(input("What is the Lowest Value  : "))
     except:
         print("The Para meter Given Was not Integer So Taking Class Size = 5")
 
-
 # Required Values Taken
 
 print("Calculating Given Values")
-sl(2)
-
+sleep(2)
 
 HighCl = int(high) % int(ClassSize)
 LowCl = int(low) % int(ClassSize)
@@ -94,12 +89,11 @@ LowClass = low - LowCl - ClassSize
 TallyM = {}
 print("\n")
 
-
 print("Printing The Values")
-sl(.9)
+sleep(.9)
 for i in range(int(((HighClass - LowClass) / ClassSize) + ClassSize)):
     for it in items:
-        if it >= (i * ClassSize) and it < ((i + 1) * ClassSize):
+        if (i * ClassSize) <= it < ((i + 1) * ClassSize):
             if f"{i * ClassSize} - {(i + 1) * ClassSize}" in TallyM:
                 upp = TallyM.get(f"{i * ClassSize} - {(i + 1) * ClassSize}")
                 upp = upp + 1
@@ -108,13 +102,13 @@ for i in range(int(((HighClass - LowClass) / ClassSize) + ClassSize)):
             else:
                 print(f"{it} in {i * ClassSize} - {(i + 1) * ClassSize}")
                 TallyM.update({f"{i * ClassSize} - {(i + 1) * ClassSize}": 1})
-        
+
 print("\n")
 print("All The Values Are Calculated Giving the Result")
-sl(1)
+sleep(1)
 for k, val in TallyM.items():
     print(f"{k} : {val}")
 
-print("Thank You For Using Our Servise! Visit Again.")
-sl(10)
+print("Thank You For Using Our Service! Visit Again.")
+sleep(10)
 input("To exit Hit Enter  ")
