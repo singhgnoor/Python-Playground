@@ -3,6 +3,7 @@ from time import sleep
 
 
 def get_Fibonacci_series(nTerms):
+    """ This function will help in finding the Fibonacci series up to nTerms """
     term1, term2 = (0, 1)
     if nTerms <= 0:
         print("Please Enter a Positive Integer(natural number).")
