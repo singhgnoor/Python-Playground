@@ -5,8 +5,8 @@ print("Please Enter The Following Details:-")
 p = input("Principal : ")
 r = input("Rate of Interest(%) : ")
 t = input("Time In Year : ")
-# if '%' in r:
-#     r.replace('%', '',1)
+# if '%' in rate_of_interest:
+#     rate_of_interest.replace('%', '',1)
 
 try:
     p = float(p)

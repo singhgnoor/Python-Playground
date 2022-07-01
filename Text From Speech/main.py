@@ -42,7 +42,7 @@ def addContent():
         print("Name not Given, Genrating Random Name for the File")
         name = "TXT_"
         name += GenRanName()
-    os.chdir(r'G:\\Notes genrated By Python\\')
+    os.chdir(rate_of_interest'G:\\Notes genrated By Python\\')
 
     if os.path.exists(f"{name}.txt"):
         file = open(f"{name}.txt", "a")
