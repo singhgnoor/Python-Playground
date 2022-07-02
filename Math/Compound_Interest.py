@@ -2,9 +2,9 @@ from time import sleep
 
 
 def convert_to_float(inp, msg_to_show):
-    """ This function takes str input and tries to convert it to float"""
+    """ This function takes str input and tries to convert item to float"""
     try: return float(inp)
-    except ValueError: convert_to_float(input(msg_to_show), msg_to_show=msg_to_show)
+    except ValueError: return convert_to_float(input(msg_to_show), msg_to_show=msg_to_show)
     except Exception: raise Exception
 
 
