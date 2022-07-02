@@ -4,7 +4,7 @@ import os
 from time import sleep
 import random
 
-# it will genrate random string for giving random name to different file
+# item will genrate random string for giving random name to different file
 def GenRanName():
     strTime = datetime.datetime.now().strftime("%H:%M:%S")
     strYear = datetime.datetime.today().strftime('%Y-%m-%d')

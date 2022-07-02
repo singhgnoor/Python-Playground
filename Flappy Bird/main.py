@@ -138,7 +138,7 @@ def mainGame():
             upperPipes.append(newpipe[0])
             lowerPipes.append(newpipe[1])
 
-        # if the pipe is out of the screen, remove it
+        # if the pipe is out of the screen, remove item
         if upperPipes[0]['x'] < -GAME_SPRITES['pipe'][0].get_width():
             upperPipes.pop(0)
             lowerPipes.pop(0)

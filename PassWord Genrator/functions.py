@@ -63,7 +63,7 @@ def PassWordGenrator(type, len):
     return passWord
 
 def PassTypeGetter():
-    passType = input("What kind of PassWord you Want? Number, Char or Mixed. (just copy and paste it)\n")
+    passType = input("What kind of PassWord you Want? Number, Char or Mixed. (just copy and paste item)\n")
 
     if passType.lower() == "number":
         return "number"

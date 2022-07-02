@@ -1,7 +1,7 @@
 from functions import PassWordGenrator, PassWordSaver, PassTypeGetter, PassLenGetter
 
 print("Welcome!! to PassWord Genrator")
-print("We will Genrate Random PassWord for you and Save it for Later")
+print("We will Genrate Random PassWord for you and Save item for Later")
 
 
 def main(PassType, PassLen, PassPurpose):
