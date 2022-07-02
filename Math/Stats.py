@@ -1,114 +1,84 @@
 from time import sleep
 
-print(
-    "Welcome To The Smart Statics And Probability Calculator !. Here You Can Solve Very Difficult And Lengthy Sum of The Static")
 
-# Taking Required Values
-# Taking Number of Input
-numOfItems = input("Number of Items you Have : ")
-# Error Handling of it 
-try:
-    numOfItems = int(numOfItems)
-except:
-    try:
-        print("Please Give a Integer (number) Parameter")
-        numOfItems = int(input("Number of Items you Have : "))
-    except:
-        print("The Para meter Given Was not Integer So Cannot Process it")
-        sleep(5)
+def convert_to_int(inp, msg_to_show):
+    """ This function takes str input and tries to convert item to int"""
+    try: return int(inp)
+    except ValueError: return convert_to_int(input(msg_to_show), msg_to_show=msg_to_show)
+    except Exception: raise Exception
+
+
+def convert_to_float(inp, msg_to_show):
+    """ This function takes str input and tries to convert item to float"""
+    try: return float(inp)
+    except ValueError: return convert_to_float(input(msg_to_show), msg_to_show=msg_to_show)
+    except Exception: raise Exception
+
+
+def Tally_Calculator(items_list, class_size):
+    """ This function distributes items in classes of given sizes"""
+    TallyM = {}
+    print_list = []
+
+    # Highest and Lowest Value's
+    high = max(items_list)
+    low = min(items_list)
+
+    # Getting range for running the loop
+    HighClass = (high - (high % class_size)) + class_size
+    LowClass = (low - (low % class_size))
+
+    for i in range(int(str(low/class_size).split(".")[0]), int((HighClass - LowClass) / class_size) + 1):
+        for item in items_list:
+            if (i * class_size) <= item < ((i + 1) * class_size):
+                if f"{i * class_size} - {(i + 1) * class_size}" in TallyM:
+                    upp = TallyM.get(f"{i * class_size} - {(i + 1) * class_size}")
+                    upp = upp + 1
+                    print_list.append(f"{item} in {i * class_size} - {(i + 1) * class_size}")
+                    TallyM.update({f"{i * class_size} - {(i + 1) * class_size}": upp})
+                else:
+                    print_list.append(f"{item} in {i * class_size} - {(i + 1) * class_size}")
+                    TallyM.update({f"{i * class_size} - {(i + 1) * class_size}": 1})
+    return TallyM, print_list
+
+
+if __name__ == '__main__':
+    # Taking Required Values
+    # Taking Number of Input
+    numOfItems = convert_to_int(input("Number of Items you Have : "), msg_to_show="Please Give a Integer (number) Parameter")
+
+    items = []
+    print("Give the Value for Each Place")
+    # Value for Each Place
+    for n in range(numOfItems):
+        whatToTake = convert_to_float(input(f"\nValue at {n + 1} : "), msg_to_show=f"Please Give a Number (float) Parameter for - Value at {n + 1} : ")
+        items.append(whatToTake)
+
+    classSize = convert_to_float(input("\n\nClass Size : "), msg_to_show="Please Give a Number(Integer) Parameter for classSize")
+
+    if classSize == 0.0:  # This can give zero division error
+        print("Class Size can not be zero!")
         exit()
 
-items = []
-print("Give the Value for Each Place")
-# Value for Eac Place
-for n in range(numOfItems):
-    whatToTake = input(f"\nValue at {n + 1} : ")
-    # Error Handling of it 
-    try:
-        whatToTake = float(whatToTake)
-    except:
-        try:
-            print("Please Give a Number Parameter")
-            whatToTake = float(input(f"Value at {n + 1} : "))
-        except:
-            print("The Para meter Given Was not Integer So the Value is = 0")
-            whatToTake = 0.0
+    # Required Values Taken
 
-    items.append(whatToTake)
+    print("Calculating Given Values\n")
+    sleep(2)
 
-print("\n")
-ClassSize = input("Class Size : ")
+    result, list_to_print = Tally_Calculator(items_list=items, class_size=classSize)
 
-# Error Handling of it 
-try:
-    ClassSize = float(ClassSize)
-except:
-    try:
-        print("Please Give a Number Parameter")
-        ClassSize = float(input("Class Size : "))
-    except:
-        print("The Para meter Given Was not Integer So Taking Class Size = 5")
+    print("Printing The Values")
+    sleep(.9)
 
-# Taking Highest Value
-high = input("What is the Highest Value  : ")
+    for print_item in list_to_print:
+        print(print_item)
+        sleep(0.1)
 
-# Error Handling of it 
-try:
-    high = float(high)
-except:
-    try:
-        print("Please Give a Number Parameter")
-        high = float(input("What is the Highest Value  : "))
-    except:
-        print("The Para meter Given Was not Integer So Taking Class Size = 5")
+    print("\nAll The Values Are Calculated Giving the Result")
+    sleep(1)
+    for key, val in result.items():
+        print(f"{key} : {val}")
 
-# Taking Lowest Value
-low = input("What is the Lowest Value  : ")
-
-# Error Handling of it 
-try:
-    low = float(low)
-except:
-    try:
-        print("Please Give a Number Parameter")
-        low = float(input("What is the Lowest Value  : "))
-    except:
-        print("The Para meter Given Was not Integer So Taking Class Size = 5")
-
-# Required Values Taken
-
-print("Calculating Given Values")
-sleep(2)
-
-HighCl = int(high) % int(ClassSize)
-LowCl = int(low) % int(ClassSize)
-
-HighClass = high + HighCl + ClassSize
-LowClass = low - LowCl - ClassSize
-
-TallyM = {}
-print("\n")
-
-print("Printing The Values")
-sleep(.9)
-for i in range(int(((HighClass - LowClass) / ClassSize) + ClassSize)):
-    for it in items:
-        if (i * ClassSize) <= it < ((i + 1) * ClassSize):
-            if f"{i * ClassSize} - {(i + 1) * ClassSize}" in TallyM:
-                upp = TallyM.get(f"{i * ClassSize} - {(i + 1) * ClassSize}")
-                upp = upp + 1
-                print(f"{it} in {i * ClassSize} - {(i + 1) * ClassSize}")
-                TallyM.update({f"{i * ClassSize} - {(i + 1) * ClassSize}": upp})
-            else:
-                print(f"{it} in {i * ClassSize} - {(i + 1) * ClassSize}")
-                TallyM.update({f"{i * ClassSize} - {(i + 1) * ClassSize}": 1})
-
-print("\n")
-print("All The Values Are Calculated Giving the Result")
-sleep(1)
-for k, val in TallyM.items():
-    print(f"{k} : {val}")
-
-print("Thank You For Using Our Service! Visit Again.")
-sleep(10)
-input("To exit Hit Enter  ")
+    print("Thank You For Using Our Service! Visit Again.")
+    sleep(10)
+    input("To exit Hit Enter  ")
