@@ -7,6 +7,7 @@ value : [{"insta_id": "...(str)", "insta_link": "...(str)", "java_timestamp": ".
 import json
 import os
 import pickle
+import main_vars
 
 
 def saveAnalysedData(data_dict, fileName):
@@ -42,7 +43,7 @@ def accounts_not_followed_back(followers, followings):
 
 
 if __name__ == '__main__':
-    os.chdir("D:\\Python\\Playground\\Instagram Data Analyser\\data\\raw\\_saini_gurnoor_20221002")
+    os.chdir(main_vars.latest_data_dir)
 
     # Finding follower_and_following information
     json_files = []
