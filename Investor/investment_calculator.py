@@ -1,6 +1,7 @@
 """ This is a Python file that calculates the investment made on monthly basis and generates outputs """
 from time import sleep
 import os
+import csv
 
 
 class Investor:
@@ -10,22 +11,30 @@ class Investor:
     __rate_of_interest = None
     __yearly_increase = 0
     __return_investment = None
+    __csv_data = []
+    __csv_header = ["Year", "Months", "Invested Amount", "Actual Amount"]
 
     def set_yearly_increase(self, _yearly_increase): self.__yearly_increase = _yearly_increase
 
-    def monthly_calculator(self, monthly_investemnt, months, rate_of_interest, basic_amount=0):
+    def monthly_calculator(self, monthly_investemnt, months, rate_of_interest, basic_amount=0, write_csv=False):
         if monthly_investemnt is None or months is None or rate_of_interest is None:
             print("Required Values Not given")
             return
+
+        csv_data = []
 
         initial_amount = monthly_investemnt + basic_amount
 
         months -= 1
         self.__years = int((months - (months % 12)) / 12)
-        amount = (initial_amount * rate_of_interest * (1 / 12) / 100) + initial_amount
+        amount = initial_amount
+        csv_data.append([1, 0, f"{initial_amount :,.2f}", f"{amount :,.2f}"])
         for i in range(int(self.__years)):
             for j in range(12):
                 amount = (amount * rate_of_interest * (1 / 12) / 100) + amount
+
+                # for write_csv function
+                csv_data.append([i+1, j+1, f"{(((i * 12) + (j + 1)) * monthly_investemnt) + basic_amount :,.2f}", f"{amount :,.2f}"])
                 amount += monthly_investemnt
             monthly_investemnt += self.__yearly_increase
 
@@ -34,6 +43,7 @@ class Investor:
                 amount = (amount * rate_of_interest * (1 / 12) / 100) + amount
                 amount += monthly_investemnt
 
+        if write_csv: self.__csv_data = csv_data
         return amount
 
     def __investment_by_factor(self, investment_amount, time, rate, factor):
@@ -51,6 +61,14 @@ class Investor:
 
     def half_yearly_investment(self, yearly_investemnt, years, rate_of_interest):
         return self.__investment_by_factor(yearly_investemnt, years, rate_of_interest, 6)
+
+    def write_csv(self, file_name):
+        if self.__csv_data == [] or self.__csv_data is None: return False
+        with open(f"D:\\Python\\Playground\\Investor\\investment_sheets\\{file_name}", "w",  encoding='UTF8') as csv_file:
+            writer = csv.writer(csv_file)
+            writer.writerow(self.__csv_header)
+            writer.writerows(self.__csv_data)
+        return True
 
 
 if __name__ == '__main__':
@@ -75,7 +93,7 @@ if __name__ == '__main__':
 
     your_investment = (months_ * principal_amount) + basic_principal_amount
 
-    return_investment = investor.monthly_calculator(principal_amount, months_, rate_, basic_amount=basic_principal_amount)
+    return_investment = investor.monthly_calculator(principal_amount, months_, rate_, basic_amount=basic_principal_amount, write_csv=True)
 
     # Setting Yearly increase
     investor.set_yearly_increase(yearly_increase)
@@ -90,3 +108,5 @@ if __name__ == '__main__':
 
     print(f"\n\nAnd now if we increase the investment by {yearly_increase} each year\nYour Investment : {(your_investment + increased_investment) :,.2f}\nReturn you get : {return_investment_new :,.2f}")
     print(f"Time taken : {int((months_ - (months_ % 12)) / 12)} Year(s) and {months_ % 12} Month(s)")
+
+    investor.write_csv("myInvestor.csv")
