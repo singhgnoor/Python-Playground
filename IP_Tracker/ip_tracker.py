@@ -1,4 +1,4 @@
-""" This is """
+""" This is an file that takes in the client ip address and spits out the most possible location of that ip"""
 import pygeoip
 
 
