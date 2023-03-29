@@ -93,6 +93,8 @@ if __name__ == '__main__':
 
     your_investment = (months_ * principal_amount) + basic_principal_amount
 
+    investor.set_yearly_increase(yearly_increase)
+
     return_investment = investor.monthly_calculator(principal_amount, months_, rate_, basic_amount=basic_principal_amount, write_csv=True)
 
     # Setting Yearly increase
