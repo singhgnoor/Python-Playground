@@ -1,13 +1,18 @@
+import os
 import cv2
 import mediapipe as mp
+from mediapipe.tasks.python import BaseOptions, vision
 from time import time
 
 
 class PoseDetector:
     """ This detects a body and return landmarks """
-    mpPose = mp.solutions.pose
-    pose = mpPose.Pose(min_tracking_confidence=0.85, min_detection_confidence=0.85)
-    draws = mp.solutions.drawing_utils
+    pose = vision.PoseLandmarker.create_from_options(vision.PoseLandmarkerOptions(
+        base_options=BaseOptions(model_asset_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), "pose_landmarker_lite.task")),
+        running_mode=vision.RunningMode.VIDEO,
+        min_pose_detection_confidence=0.85,
+        min_tracking_confidence=0.85))
+    last_ts = 0
 
     cam = cv2.VideoCapture(0)
 
@@ -24,9 +29,10 @@ class PoseDetector:
         self.cTime = None
 
     def detectPoseFromImage(self, image, imageRGB):
-        results = self.pose.process(imageRGB)
-        pose_landmarks = results.pose_landmarks
-        return pose_landmarks
+        ts = max(int(time() * 1000), self.last_ts + 1)  # VIDEO mode needs strictly increasing timestamps
+        self.last_ts = ts
+        results = self.pose.detect_for_video(mp.Image(image_format=mp.ImageFormat.SRGB, data=imageRGB), ts)
+        return results.pose_landmarks[0] if results.pose_landmarks else None
 
     def showPoseTrackingFromCameraFeed(self, ImShowTitle="Pose Detection", waitKey="q", draws=False):
         while True:
@@ -74,7 +80,7 @@ class PoseDetector:
 
         """
         usable_landmarks = []
-        for lm in mp_landmarks.landmark[11::]:
+        for lm in mp_landmarks[11::]:
             usable_landmarks.append([round(lm.x * self.width), round(lm.y * self.height), lm.z, lm.visibility])
         return usable_landmarks
 

@@ -1,8 +1,10 @@
 """ This File detects hand movements """
 
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+import os
 import cv2
 import mediapipe as mp
+from mediapipe.tasks.python import BaseOptions, vision
 from time import time
 import math
 from ctypes import cast, POINTER
@@ -12,9 +14,14 @@ pyautogui.PAUSE = 0
 
 
 class HandDetector:
-    hands = mp.solutions.hands.Hands(max_num_hands=1, min_detection_confidence=.9)
-    MpHands = mp.solutions.hands
-    draws = mp.solutions.drawing_utils
+    hands = vision.HandLandmarker.create_from_options(vision.HandLandmarkerOptions(
+        base_options=BaseOptions(model_asset_path=os.path.join(os.path.dirname(os.path.abspath(__file__)), "hand_landmarker.task")),
+        running_mode=vision.RunningMode.VIDEO,
+        num_hands=1,
+        min_hand_detection_confidence=.9))
+    MpHands = vision.HandLandmarksConnections
+    draws = vision.drawing_utils
+    last_ts = 0
 
     height, width = (480, 640)
 
@@ -31,21 +38,23 @@ class HandDetector:
 
     VolumeTrack = False
 
-    volume = cast(AudioUtilities.GetSpeakers().Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None), POINTER(IAudioEndpointVolume))
+    volume = AudioUtilities.GetSpeakers().EndpointVolume
 
     PLayPauseTime = time()
     VolumeTime = time()
     PlayNextTime = time()
 
     def detectHandsFromImage(self, image, imageRGB, draws=True):
-        result = self.hands.process(imageRGB)
+        ts = max(int(time() * 1000), self.last_ts + 1)  # VIDEO mode needs strictly increasing timestamps
+        self.last_ts = ts
+        result = self.hands.detect_for_video(mp.Image(image_format=mp.ImageFormat.SRGB, data=imageRGB), ts)
 
         landmarkList = []
 
-        if result.multi_hand_landmarks is not None:
-            for hand in result.multi_hand_landmarks:
+        if result.hand_landmarks is not None:
+            for hand in result.hand_landmarks:
                 tempList = []
-                for lmID, lm in enumerate(hand.landmark):
+                for lmID, lm in enumerate(hand):
                     cx, cy = int(lm.x * self.width), int(lm.y * self.height)
                     tempList.append([cx, cy])
                 landmarkList.append(tempList)
