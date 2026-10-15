@@ -1,0 +1,7 @@
+pygame
+pyttsx3
+mediapipe
+opencv-python
+comtypes
+pyautogui
+pycaw
