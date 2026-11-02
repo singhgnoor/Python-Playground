@@ -52,14 +52,13 @@ for (lm, img) in (handDetect.showHandTrackingFromCameraFeed()):
                     cv2.putText(img, "Previous", (10, 400), cv2.FONT_HERSHEY_COMPLEX, 2, (0, 0, 0), 3)
                     move_enable = False
                     move_disable_time = time()
-                    pyautogui.keyDown("prevtrack")
-                    pyautogui.keyDown("prevtrack")
+                    pyautogui.press("prevtrack", presses=2, interval=0.1)
 
                 if lm[indexOfHand][0][0] + 20 < lm[indexOfHand][5][0]:
                     cv2.putText(img, "Next", (10, 400), cv2.FONT_HERSHEY_COMPLEX, 2, (0, 0, 0), 3)
                     move_enable = False
                     move_disable_time = time()
-                    pyautogui.keyDown("nexttrack")
+                    pyautogui.press("nexttrack")
 
         if not move_enable and not indexFingerUp and not MiddleFingerUp and not RingFingerUp and not PinkyFingerUp:
             if (time() - move_disable_time) > 1.5:

@@ -4,3 +4,4 @@ venv/
 testRun.py
 testRun2.py
 Gym/gym_temp.py
+*.pyc
